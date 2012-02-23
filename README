@@ -1,0 +1,10 @@
+Author: Andrew Crites
+Webzone: http://explosion-pills.com
+Contact: explosion-pills@aysites.com
+
+csspurify is a library written in PHP that parses a CSS file and emits rulesets based on a user-provided
+whitelist or blacklist.  This simple library was written as a solution for sanitizing user-provided CSS
+files to prevent malicious website activity while allowing for customization.
+
+Currently csspurify requires some knowledge of php code to write the whitelist and blacklists and to call the
+purifier.
