@@ -37,7 +37,7 @@ final class CssPurify {
    }
 
    public static function createPurifierFromString($css, Whitelist $whitelist = null, Blacklist $blacklist = null) {
-      $lexer = new Lexer($css);
+      $lexer = new Lexer(new Scanner($css));
       return self::createPurifierFromRulesets($lexer, $whitelist, $blacklist);
    }
 
