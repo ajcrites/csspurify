@@ -121,7 +121,7 @@ final class Lexer {
       }
 
       if ($c1 == Scanner::EOF) {
-         return new EOF;
+         return null;
       }
 
       $lute = new LexerUnknownTokenException;

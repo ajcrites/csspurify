@@ -5,5 +5,10 @@ interface Tokenable {
     * @param string
     */
    function append($chars);
+
+   /**
+    * Retrieve the token's value
+    */
+   function get();
 }
 ?>

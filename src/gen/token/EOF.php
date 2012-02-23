@@ -1,4 +1,9 @@
 <?php
-final class EOF implements Tokenable {
+class EOF implements Tokenable {
+   public function append($chars) {}
+
+   public function get() {
+      return Scanner::EOF;
+   }
 }
 ?>

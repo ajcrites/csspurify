@@ -6,9 +6,9 @@ final class CssPurify {
    private $lexer;
 
    /**
-    * @var Whitelist list of allowed rulesets
+    * @var array of Filters (whitelist/blacklist) of banned elements
     */
-   private $whitelist;
+   private $filters = array();
 
    /**
     * @var Blacklist list of banned rulesets
@@ -25,28 +25,25 @@ final class CssPurify {
     */
    private $state = 'selector';
 
-   public function __construct(Lexer $lexer, Whitelist $whitelist, Blacklist $blacklist, Tree $tree) {
+   public function __construct(Lexer $lexer, Tree $tree) {
       $this->lexer = $lexer;
-      $this->whitelist = $whitelist;
-      $this->blacklist = $blacklist;
       $this->tree = $tree;
    }
 
-   public static function createPurifierFromFile($css, Whitelist $whitelist = null, Blacklist $blacklist = null) {
+   public function addFilter(Filter $filter) {
+      $this->filters[] = $filter;
+   }
+
+   public static function createPurifierFromFile($css) {
       return self::createPurifierFromString(file_get_contents($css), $whitelist, $blacklist);
    }
 
-   public static function createPurifierFromString($css, Whitelist $whitelist = null, Blacklist $blacklist = null) {
-      $lexer = new Lexer(new Scanner($css));
-      return self::createPurifierFromRulesets($lexer, $whitelist, $blacklist);
-   }
-
-   public static function createPurifierFromRulesets(Lexer $lexer, Whitelist $whitelist = null, Blacklist $blacklist = null) {
-      return new self($lexer, $whitelist, $blacklist, new Tree);
+   public static function createPurifierFromString($css) {
+      return new Lexer(new Scanner($css, new Tree));
    }
 
    public function parse() {
-      while ($token = $lexer->getToken()) {
+      while ($token = $lexer->get()) {
       }
    }
 }

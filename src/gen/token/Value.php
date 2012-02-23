@@ -7,7 +7,11 @@ final class Value implements Tokenable {
    }
 
    public function append($chars) {
-      $this->token .= $chars
+      $this->token .= $chars;
+   }
+
+   public function get() {
+      return $this->token;
    }
 }
 ?>
