@@ -127,13 +127,15 @@ final class Lexer {
             }
             else if ($this->in($c1, self::WHITESPACE)) {
                //Remove duplicate whitespace
-               while ($this->in($c2, self::WHITESPACE) && !$this->in($c2, Scanner::EOF)) {
+               while ($this->in($c2, self::WHITESPACE) && $c2 != Scanner::EOF) {
                   $c = $this->getChar();
                   $c1 = $c[0];
                   $c2 = $c[1];
                }
-               //Append the single whitespace
-               $token->append($c1);
+               //Append the single whitespace, if it's needed
+               if (!$this->in($c2, self::BLOCK) && $c2 != Scanner::EOF) {
+                  $token->append($c1);
+               }
             }
          }
 
