@@ -5,7 +5,7 @@ final class Lexer {
     */
    const BLOCK = '{}:;/';
    //Valid CSS characters
-   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()\'"#.,';
+   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,';
    const START_RULES = '{';
    const END_RULES = '}';
    const START_RULE = ':';
@@ -14,6 +14,7 @@ final class Lexer {
    const END_COMMENT = '*/';
    const INDENTATION = " \t";
    const WHITESPACE = " \t\n\r";
+   const NEWLINE = "\n\r";
    /**#@-*/
 
    /**
@@ -37,13 +38,23 @@ final class Lexer {
       $c1 = $c[0];
       $c2 = $c[1];
 
+      //Strip off newlines that are not part of selectors
+      while ($this->in($c1, self::NEWLINE) && $c2 != Scanner::EOF) {
+         $c = $this->getChar();
+         $c1 = $c[0];
+         $c2 = $c[1];
+      }
+
+      if ($this->in($c1, self::NEWLINE) && $c2 == Scanner::EOF) {
+         return null;
+      }
+
       if ($c1 == Scanner::EOF) {
          return null;
       }
 
       if ($this->in($c1, self::INDENTATION)) {
          while ($this->in($c2, self::WHITESPACE)) {
-            die('ONE');
             //throw out multiple whitespaces or token-starting whitespace
             //Whitespace after :;{ or } in CSS has no meaning, so okay that these are their own tokens
             $c = $this->getChar();

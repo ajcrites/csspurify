@@ -10,9 +10,16 @@ final class Value implements Tokenable {
       $this->token .= $chars;
    }
 
-   //Leading and trailing whitespace is not useful on values
    public function get() {
-      return trim($this->token);
+      return $this->token;
+   }
+
+   /**
+    * Values can be selectors, rule declarations, or rules themselves!
+    * Values are valid in most places
+    */
+   public function expect(CssPurify $parser) {
+      $parser->contributeValue($this);
    }
 }
 ?>
