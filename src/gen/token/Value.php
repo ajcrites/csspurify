@@ -10,8 +10,9 @@ final class Value implements Tokenable {
       $this->token .= $chars;
    }
 
+   //Leading and trailing whitespace is not useful on values
    public function get() {
-      return $this->token;
+      return trim($this->token);
    }
 }
 ?>

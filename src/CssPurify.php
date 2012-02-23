@@ -35,15 +35,15 @@ final class CssPurify {
    }
 
    public static function createPurifierFromFile($css) {
-      return self::createPurifierFromString(file_get_contents($css), $whitelist, $blacklist);
+      return self::createPurifierFromString(file_get_contents($css));
    }
 
    public static function createPurifierFromString($css) {
-      return new Lexer(new Scanner($css, new Tree));
+      return new self(new Lexer(new Scanner($css)), new Tree);
    }
 
    public function parse() {
-      while ($token = $lexer->get()) {
+      while ($token = $this->lexer->get()) {
       }
    }
 }

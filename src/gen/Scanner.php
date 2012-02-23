@@ -25,7 +25,7 @@ final class Scanner {
     */
    public function __construct($source) {
       $this->source = str_split($source);
-      $this->end = count($source) - 1;
+      $this->end = strlen($source) - 1;
    }
 
    /**
@@ -39,7 +39,7 @@ final class Scanner {
       }
       else {
          $char = $this->source[$this->index];
-         if (!$char) {
+         if ($char === '') {
             throw new ScannerEmptySourceException;
          }
          return $char;
@@ -98,21 +98,21 @@ final class Scanner {
 
 class ScannerException extends Exception {}
 class ScannerEmptySourceException extends ScannerException {
-   public function __construct($message = null, $code = 0, Exception $previous = null) {
+   public function __construct($message = null, $code = 0) {
       $message = "Empty character encountered when scanning source.  This is illegal.  Source may be empty"
          . ($message ? ": $message" : '')
       ;
 
-      parent::__construct($message, $code, $previous);
+      parent::__construct($message, $code);
    }
 }
 class ScannerIllegalLookaheadException extends ScannerException {
-   public function __construct($message = null, $code = 0, Exception $previous = null) {
+   public function __construct($message = null, $code = 0) {
       $message = "Attempting to look at index that extends beyond the end of the source"
          . ($message ? ": $message" : '')
       ;
 
-      parent::__construct($message, $code, $previous);
+      parent::__construct($message, $code);
    }
 
    public function setLookahead($amount, $end) {

@@ -5,7 +5,7 @@ final class Lexer {
     */
    const BLOCK = '{}:;/';
    //Valid CSS characters
-   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$';
+   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()\'"#.,';
    const START_RULES = '{';
    const END_RULES = '}';
    const START_RULE = ':';
@@ -37,14 +37,23 @@ final class Lexer {
       $c1 = $c[0];
       $c2 = $c[1];
 
+      if ($c1 == Scanner::EOF) {
+         return null;
+      }
+
       if ($this->in($c1, self::INDENTATION)) {
          while ($this->in($c2, self::WHITESPACE)) {
+            die('ONE');
             //throw out multiple whitespaces or token-starting whitespace
             //Whitespace after :;{ or } in CSS has no meaning, so okay that these are their own tokens
-            $this->getChar();
+            $c = $this->getChar();
+            $c1 = $c[0];
+            $c2 = $c[1];
          }
          //throw out the last one
-         $this->getChar();
+         $c = $this->getChar();
+         $c1 = $c[0];
+         $c2 = $c[1];
       }
 
       if ("$c1$c2" == self::START_COMMENT) {
@@ -87,7 +96,7 @@ final class Lexer {
       }
       else {
          if ($this->in($c1, self::WHITESPACE)) {
-            while ($this->in($c2, self::WHITESPACE) && !$this->in($c2, Scanner::EOF)) {
+            while ($this->in($c2, self::WHITESPACE) && $c2 != Scanner::EOF) {
                $c = $this->getChar();
                $c1 = $c[0];
                $c2 = $c[1];
@@ -96,7 +105,7 @@ final class Lexer {
 
          $token = new Value($c1);
 
-         while (!$this->in($c2, self::BLOCK) && !$this->in($c2, Sanncer::EOF)) {
+         while (!$this->in($c2, self::BLOCK) && $c2 != Scanner::EOF) {
 
             $c = $this->getChar();
             $c1 = $c[0];
@@ -118,10 +127,6 @@ final class Lexer {
          }
 
          return $token;
-      }
-
-      if ($c1 == Scanner::EOF) {
-         return null;
       }
 
       $lute = new LexerUnknownTokenException;
@@ -154,24 +159,24 @@ final class Lexer {
    }
 }
 
-class LexerException {}
+class LexerException extends Exception {}
 class LexerScanErrorException extends LexerException {}
 class LexerUnclosedCommentException extends LexerScanErrorException {
-   public function __construct($message = null, $code = 0, Exception $previous = null) {
+   public function __construct($message = null, $code = 0) {
       $message = "End of document was reached, but a comment was left unclosed"
          . ($message ? ": $message" : '')
       ;
 
-      parent::__construct($message, $code, $previous);
+      parent::__construct($message, $code);
    }
 }
 class LexerUnknownTokenException extends LexerScanErrorException {
-   public function __construct($message = null, $code = 0, Exception $previous = null) {
+   public function __construct($message = null, $code = 0) {
       $message = "Unknown token encountered during scanning"
          . ($message ? ": $message" : '')
       ;
 
-      parent::__construct($message, $code, $previous);
+      parent::__construct($message, $code);
    }
 
    public function setToken($char) {
