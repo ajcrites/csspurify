@@ -13,12 +13,12 @@ final class Filter implements Filterable {
    /**
     * @var array Rules to check against
     */
-   $rules = array();
+   private $rules = array();
 
    /**
     * @var string The current level to filter
     */
-   $level;
+   private $level;
 
    /**
     * Start at the selector level
@@ -73,7 +73,7 @@ final class Filter implements Filterable {
     * @return bool whether the item matches against any rule on the current level
     */
    public function filter($item) {
-      foreach ($rules as $rule) {
+      foreach ($this->rules as $rule) {
          if ($rule['level'] == $this->level) {
 
             switch ($rule['type']) {

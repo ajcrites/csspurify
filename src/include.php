@@ -21,6 +21,9 @@ if (function_exists('spl_autoload_register')) {
       else if (file_exists($path . "gen/token/$file.php")) {
          include $path . "gen/token/$file.php";
       }
+      else if (file_exists($path . "filter/$file.php")) {
+         include $path . "filter/$file.php";
+      }
    }
    spl_autoload_register('__csspurify_autoload');
 }
@@ -36,6 +39,10 @@ else {
    include $path . "gen/token/StartRule.php";
    include $path . "gen/token/StartRules.php";
    include $path . "gen/token/Value.php";
+   include $path . "filter/Filterable.php";
+   include $path . "filter/Filter.php";
+   include $path . "filter/Whitelist.php";
+   include $path . "filter/Blacklist.php";
    include $path . "tree/Tree.php";
 }
 ?>

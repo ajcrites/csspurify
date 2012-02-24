@@ -71,7 +71,7 @@ final class Tree {
     */
    public function addComment() {}
 
-   public function filter(Filter $filter) {
+   public function filter(Filterable $filter) {
       $this->rulesets = $filter->filter($this->rulesets);
    }
 

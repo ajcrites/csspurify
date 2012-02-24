@@ -44,7 +44,7 @@ final class Whitelist implements Filterable {
             $this->filter->setLevel(self::RULE_LEVEL_SELECTOR);
 
             if ($this->filter->filter($selector)) {
-               foreach ($rules as $rule => $value;) {
+               foreach ($rules as $rule => $value) {
                   $this->filter->setLevel(self::RULE_LEVEL_RULE);
 
                   if ($this->filter->filter($rule)) {

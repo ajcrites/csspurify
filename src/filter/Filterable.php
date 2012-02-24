@@ -10,16 +10,16 @@ interface Filterable {
    /**#@+
     * Rule types
     */
-   const RULE_TYPE_EXACT = 'exact'
-   const RULE_TYPE_CONTAINS = 'contains'
-   const RULE_TYPE_REGEX = 'regex'
+   const RULE_TYPE_EXACT = 'exact';
+   const RULE_TYPE_CONTAINS = 'contains';
+   const RULE_TYPE_REGEX = 'regex';
    /**#@-*/
    /**#@+
     * Rule Levels
     */
-   const RULE_LEVEL_SELECTOR = 'selector'
-   const RULE_LEVEL_RULE = 'rule'
-   const RULE_LEVEL_VALUE = 'rule value'
+   const RULE_LEVEL_SELECTOR = 'selector';
+   const RULE_LEVEL_RULE = 'rule';
+   const RULE_LEVEL_VALUE = 'rule value';
    /**#@-*/
 
    /**

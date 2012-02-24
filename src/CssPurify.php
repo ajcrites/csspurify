@@ -63,7 +63,7 @@ final class CssPurify {
     * Add a blacklist or whitelist filter to eliminate rules or rulesets
     * @param Filter
     */
-   public function addFilter(Filter $filter) {
+   public function addFilter(Filterable $filter) {
       $this->filters[] = $filter;
    }
 
@@ -97,7 +97,7 @@ final class CssPurify {
       }
 
       foreach ($this->filters as $filter) {
-         $this->tree->filter($filer);
+         $this->tree->filter($filter);
       }
       return $this->tree;
    }
@@ -183,5 +183,4 @@ final class CssPurify {
    /**#@-*/
 }
 
-class CssPurifyException extends Exception {}
 ?>
