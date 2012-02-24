@@ -15,7 +15,7 @@ final class Lexer {
     */
    const BLOCK = '{}:;/';
    //Valid CSS characters
-   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,';
+   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,>';
    const START_RULES = '{';
    const END_RULES = '}';
    const START_RULE = ':';
@@ -196,7 +196,7 @@ final class Lexer {
    }
 }
 
-class LexerException extends Exception {}
+class LexerException extends CssPurifyException {}
 class LexerScanErrorException extends LexerException {}
 class LexerUnclosedCommentException extends LexerScanErrorException {
    public function __construct($message = null, $code = 0) {

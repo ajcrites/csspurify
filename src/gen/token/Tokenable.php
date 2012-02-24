@@ -21,5 +21,5 @@ interface Tokenable {
 /**
  * Token arrived at an inappropriate time
  */
-class InvalidTokenException extends Exception {}
+class InvalidTokenException extends CssPurifyException {}
 ?>

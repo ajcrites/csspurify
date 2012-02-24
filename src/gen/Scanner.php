@@ -106,7 +106,7 @@ final class Scanner {
    }
 }
 
-class ScannerException extends Exception {}
+class ScannerException extends CssPurifyException {}
 class ScannerEmptySourceException extends ScannerException {
    public function __construct($message = null, $code = 0) {
       $message = "Empty character encountered when scanning source.  This is illegal.  Source may be empty"

@@ -102,6 +102,9 @@ final class CssPurify {
       return $this->tree;
    }
 
+   /**#@+
+    * State-handling methods
+    */
    /**
     * Change state now that we have a value; also add value contents to current value state
     */
@@ -177,5 +180,8 @@ final class CssPurify {
     * TODO find an elegant way to store comments in an appropriate spot (e.g. before/after/inside selectors)
     */
    public function addComment() {}
+   /**#@-*/
 }
+
+class CssPurifyException extends Exception {}
 ?>
