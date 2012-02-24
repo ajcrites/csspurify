@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define a container for parsed CSS content and methods to filter it
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */

@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define the contract for filter-acting classes
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */ 
