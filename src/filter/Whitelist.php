@@ -52,7 +52,7 @@ final class Whitelist implements Filterable {
 
                      if ($this->filter->filter($value)) {
 
-                        if (!isset($ouptut[$section][$selector])) {
+                        if (!isset($output[$section][$selector])) {
                            $output[$section][$selector] = array();
                         }
                         $output[$section][$selector][$rule] = $value;
