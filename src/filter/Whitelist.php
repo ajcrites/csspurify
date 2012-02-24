@@ -70,5 +70,13 @@ final class Whitelist implements Filterable {
     * Do nothing
     */
    public function setLevel($level) {}
+
+   /**
+    * Allow an entire level to be whitelisted
+    * You may only want to write whitelist rules for a specific level and allow everything else
+    */
+   public function allowLevel($level) {
+      $this->filter->addRule(self::RULE_TYPE_ALLOW_LEVEL, $level, ' ');
+   }
 }
 ?>

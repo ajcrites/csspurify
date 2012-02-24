@@ -35,20 +35,20 @@ final class Filter implements Filterable {
     */
    public function addRule($type, $level, $content) {
       if ($type != self::RULE_TYPE_EXACT && $type != self::RULE_TYPE_CONTAINS
-         && $types != self::RULE_TYPE_REGEX
+         && $type != self::RULE_TYPE_REGEX && $type != self::RULE_TYPE_ALLOW_LEVEL
       ) {
          throw new FilterInvalidRuleTypeException("Attempting to add rule $content of type $type."
             . " Not a valid type.");
       }
 
-      if ($type != self::RULE_LEVEL_SELECTOR && $type != self::RULE_LEVEL_RULE
-         && $types != self::RULE_LEVEL_VALUE
+      if ($level != self::RULE_LEVEL_SELECTOR && $level != self::RULE_LEVEL_RULE
+         && $level != self::RULE_LEVEL_VALUE
       ) {
          throw new FilterInvalidRuleLevelException("Attempting to add rule $content at level $level."
             . " Not a valid level.");
       }
 
-      if (!is_numeric($content) || !is_string($content) || !$content) {
+      if (!is_numeric($content) && !is_string($content) && !$content) {
          throw new FilterInvalidContentException("Attempting to add rule of type $type: $content."
             . " Content must be a non-empty string or number");
       }
@@ -97,6 +97,9 @@ final class Filter implements Filterable {
                      return true;
                   }
                   break;
+
+               case self::RULE_TYPE_ALLOW_LEVEL:
+                  return true;
 
                default:
                   throw new FilterInvalidRuleTypeException;

@@ -13,6 +13,7 @@ interface Filterable {
    const RULE_TYPE_EXACT = 'exact';
    const RULE_TYPE_CONTAINS = 'contains';
    const RULE_TYPE_REGEX = 'regex';
+   const RULE_TYPE_ALLOW_LEVEL = 'allow level';
    /**#@-*/
    /**#@+
     * Rule Levels
