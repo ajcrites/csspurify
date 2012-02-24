@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * The purpose of this file is to create a simple script for purifying a CSS file with appropriate filters
@@ -8,11 +9,22 @@
 
 include 'src/include.php';
 
-if ($argc != 2) {
-   die("You must provide a css file to purify\n");
+array_shift($argv);
+$opts = getopt('u');
+$c = count($opts);
+for ($count = 0; $count < count($opts); $count++) {
+   array_shift($argv);
 }
 
-$file = $argv[1];
+if (count($argv) != 1 && count($argv) != 2) {
+   die("You must provide a css file to purify\n");
+}
+$output = null;
+if (count($argv) == 2) {
+   $output = $argv[1];
+}
+
+$file = $argv[0];
 
 if (!file_exists($file)) {
    die("File $file cannot be found\n");
@@ -36,8 +48,22 @@ $purifier = CssPurify::createPurifierFromFile($file);
 
 $css = $purifier->parse();
 
-/**
- * TODO give the option to emit as compressed or uncompressed
- */
-echo $css->emitAsCss();
+if (isset($opts['u'])) {
+   $result = $css->emitAsUncompressedCss();
+}
+else {
+   $result = $css->emitAsCss();
+}
+
+if ($output) {
+   if (is_writable($output)) {
+      file_put_contents($output, $result);
+   }
+   else {
+      die("Cannot write to output file $output.  Check permissions and confirm it exists");
+   }
+}
+else {
+   echo $result;
+}
 ?>

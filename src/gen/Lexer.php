@@ -15,7 +15,7 @@ final class Lexer {
     */
    const BLOCK = '{}:;/';
    //Valid CSS characters
-   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,>';
+   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,>=';
    const START_RULES = '{';
    const END_RULES = '}';
    const START_RULE = ':';

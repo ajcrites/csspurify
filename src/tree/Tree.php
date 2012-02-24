@@ -48,7 +48,9 @@ final class Tree {
     */
    public function addSelector($value) {
       $this->cursel = $value;
-      $this->rulesets[self::TRUNK][$value] = array();
+      if (!isset($this->rulesets[self::TRUNK][$value])) {
+         $this->rulesets[self::TRUNK][$value] = array();
+      }
    }
 
    /**
