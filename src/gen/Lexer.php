@@ -1,4 +1,14 @@
 <?php
+/**
+ * The purpose of this file is to define the CssPurify lexer class
+ * @author Andrew Crites <andrew@gleim.com>
+ * @copyright 2012
+ * @package csspurify
+ */
+
+/**
+ * Split a string of CSS into tokens
+ */
 final class Lexer {
    /**#@+
     * Representations of token types
@@ -34,26 +44,36 @@ final class Lexer {
     * @throws LexerUnknownTokenException
     */
    public function get() {
-      $c = $this->getChar();
-      $c1 = $c[0];
-      $c2 = $c[1];
 
-      //Strip off newlines that are not part of selectors
+      //Get the next character.  It is possible for a previous token to end right before EOF
+      try {
+         $c = $this->getChar();
+         $c1 = $c[0];
+         $c2 = $c[1];
+      }
+      catch (ScannerIllegalLookaheadException $sille) {
+         return null;
+      }
+
+      //Strip off newlines that are not part of selectors values (the value lexing handles this)
+      //We don't want to encounter a scanner lookahead exception by c2 going past EOF
       while ($this->in($c1, self::NEWLINE) && $c2 != Scanner::EOF) {
          $c = $this->getChar();
          $c1 = $c[0];
          $c2 = $c[1];
       }
 
+      //No more useful information is in the source
       if ($this->in($c1, self::NEWLINE) && $c2 == Scanner::EOF) {
          return null;
       }
 
+      //Should be impossible, but just in case
       if ($c1 == Scanner::EOF) {
          return null;
       }
 
-      if ($this->in($c1, self::INDENTATION)) {
+      if ($this->in($c1, self::INDENTATION) && $c2 != Scanner::EOF) {
          while ($this->in($c2, self::WHITESPACE)) {
             //throw out multiple whitespaces or token-starting whitespace
             //Whitespace after :;{ or } in CSS has no meaning, so okay that these are their own tokens
@@ -67,6 +87,7 @@ final class Lexer {
          $c2 = $c[1];
       }
 
+      //Comments are pretty simple in CSS, huh
       if ("$c1$c2" == self::START_COMMENT) {
          $token = new Comment("$c1$c2");
 
@@ -88,6 +109,7 @@ final class Lexer {
          return $token;
       }
 
+      //Handle any block tokens now that whitespace and possible EOF is dealt with
       if ($c1 == self::START_RULES) {
          return new StartRules;
       }
@@ -106,6 +128,7 @@ final class Lexer {
          return new Value($c1);
       }
       else {
+         //Strip off initial whitespace
          if ($this->in($c1, self::WHITESPACE)) {
             while ($this->in($c2, self::WHITESPACE) && $c2 != Scanner::EOF) {
                $c = $this->getChar();
@@ -116,6 +139,7 @@ final class Lexer {
 
          $token = new Value($c1);
 
+         //Gather all meaningful value up to the next block
          while (!$this->in($c2, self::BLOCK) && $c2 != Scanner::EOF) {
 
             $c = $this->getChar();
@@ -132,7 +156,7 @@ final class Lexer {
                   $c1 = $c[0];
                   $c2 = $c[1];
                }
-               //Append the single whitespace, if it's needed
+               //Append the single whitespace, if it's needed (only if not followed by a block)
                if (!$this->in($c2, self::BLOCK) && $c2 != Scanner::EOF) {
                   $token->append($c1);
                }

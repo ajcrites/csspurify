@@ -12,10 +12,14 @@ interface Tokenable {
    function get();
 
    /**
-    * Return the tokens value if the parser expects it and update state appropriately
+    * Tell the parser which action to take in order to modify values and update its state
+    * @param CssPurify
     */
    function expect(CssPurify $parser);
 }
 
+/**
+ * Token arrived at an inappropriate time
+ */
 class InvalidTokenException extends Exception {}
 ?>

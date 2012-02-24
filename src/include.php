@@ -1,4 +1,11 @@
 <?php
+/**
+ * The purpose of this file is to include all required CssPurify source
+ * @author Andrew Crites <andrew@gleim.com>
+ * @copyright 2012
+ * @package csspurify
+ */
+
 if (function_exists('spl_autoload_register')) {
    function __csspurify_autoload($file) {
       $path = dirname(__FILE__) . '/';

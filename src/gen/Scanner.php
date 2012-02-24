@@ -1,7 +1,17 @@
 <?php
+/**
+ * The purpose of this file is to create a simple file scanner with some error handling
+ * @author Andrew Crites <andrew@gleim.com>
+ * @copyright 2012
+ * @package csspurify
+ */
+
+/**
+ * Simple scanner
+ */
 final class Scanner {
    /**
-    * End of file representation.  It is purposely more than one character
+    * End of file representation.  It is purposely more than one character.
     */
    const EOF = 'End-Of-File';
 

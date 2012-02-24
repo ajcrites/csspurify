@@ -1,4 +1,15 @@
 <?php
+/**
+ * The purpose of this file is to define the CSS Purify parser class
+ * @author Andrew Crites <andrew@gleim.com>
+ * @copyright 2012
+ * @package csspurify
+ */
+
+/**
+ * Parser that filters css based on user-defined filters
+ * TODO handle @ selectors (don't know their names, but media queries and keyframes are the big 'uns).
+ */
 final class CssPurify {
    /**
     * @var Lexer lexer for the CSS file used to acquire appropriate tokens
@@ -9,11 +20,6 @@ final class CssPurify {
     * @var array of Filters (whitelist/blacklist) of banned elements
     */
    private $filters = array();
-
-   /**
-    * @var Blacklist list of banned rulesets
-    */
-   private $blacklist;
 
    /**
     * @var Tree to be emitted as CSS
@@ -43,29 +49,57 @@ final class CssPurify {
     */
    private $value;
 
+   /**
+    * Create a CssPurify Parser
+    * @param Lexer containing the source
+    * @param Tree representing the target
+    */
    public function __construct(Lexer $lexer, Tree $tree) {
       $this->lexer = $lexer;
       $this->tree = $tree;
    }
 
+   /**
+    * Add a blacklist or whitelist filter to eliminate rules or rulesets
+    * @param Filter
+    */
    public function addFilter(Filter $filter) {
       $this->filters[] = $filter;
    }
 
+   /**
+    * Create a parser from the provided CSS file
+    * @param string filename
+    * @return CssPurify
+    */
    public static function createPurifierFromFile($css) {
       return self::createPurifierFromString(file_get_contents($css));
    }
 
+   /**
+    * Create a parser from the provided CSS content
+    * @param string css source
+    * @return CssPurify
+    */
    public static function createPurifierFromString($css) {
       return new self(new Lexer(new Scanner($css)), new Tree);
    }
 
+   /**
+    * Parse the CSS, filter it, and return the CSS tree
+    * @return Tree
+    */
    public function parse() {
       $this->state = self::ST_EMPTY_SELECTOR;
       $this->value = '';
       while ($token = $this->lexer->get()) {
          $token->expect($this);
       }
+
+      foreach ($this->filters as $filter) {
+         $this->tree->filter($filer);
+      }
+      return $this->tree;
    }
 
    /**
@@ -140,6 +174,7 @@ final class CssPurify {
 
    /**
     * Add a comment
+    * TODO find an elegant way to store comments in an appropriate spot (e.g. before/after/inside selectors)
     */
    public function addComment() {}
 }
