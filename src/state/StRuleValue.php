@@ -19,21 +19,25 @@ class StRuleValue implements Statable {
    }
 
    /**
+    * Do not move state.  Values are allowed in rule values, of course!
+    */
+   public function startValue() {
+      return $this;
+   }
+
+   /**
     * Report error for inconsistent state
     * @param string
     */
    public function err($attempted) {
       throw new InconsistentStateException("Attempting to move to state $attempted, but"
-         . " this is invalid.  We are currently in the Empty Rule Value state.");
+         . " this is invalid.  We are currently in the Rule Value state.");
    }
 
    /**#@+
     * Inconsistent states
     */
    public function startRule(CssPurify $parser) {
-      $this->err('start value');
-   }
-   public function startValue() {
       $this->err('start value');
    }
    public function startRuleset() {

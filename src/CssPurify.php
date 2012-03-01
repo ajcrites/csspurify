@@ -93,8 +93,7 @@ final class CssPurify {
       $this->state = new StEmptySelector;
       $this->value = '';
       while ($token = $this->lexer->get()) {
-         $state = $token->expect($this);
-         $this->state = $state;
+         $this->state = $token->expect($this);
       }
 
       foreach ($this->filters as $filter) {
@@ -160,7 +159,9 @@ final class CssPurify {
     * Add a comment
     * TODO find an elegant way to store comments in an appropriate spot (e.g. before/after/inside selectors)
     */
-   public function addComment() {}
+   public function addComment() {
+      return $this->state;
+   }
    /**#@-*/
 }
 

@@ -28,6 +28,13 @@ class StSelector implements Statable {
    }
 
    /**
+    * Do not move state; values in selectors are valid
+    */
+   public function startValue() {
+      return $this;
+   }
+
+   /**
     * Report error for inconsistent state
     * @param string
     */
@@ -39,9 +46,6 @@ class StSelector implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startValue() {
-      $this->err('start value');
-   }
    public function endRule() {
       $this->err('end ruleset');
    }

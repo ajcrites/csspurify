@@ -34,7 +34,7 @@ class StEmptySelector implements Statable {
     */
    public function err($attempted) {
       throw new InconsistentStateException("Attempting to move to state $attempted, but"
-         . " this is invalid.  We are currently in the Empty Rule Value state.");
+         . " this is invalid.  We are currently in the Empty Selector state.");
    }
 
    /**#@+

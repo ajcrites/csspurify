@@ -18,6 +18,13 @@ class StRule implements Statable {
    }
 
    /**
+    * Do not move state.  Values are valid in rule definitions
+    */
+   public function startValue() {
+      return $this;
+   }
+
+   /**
     * Report error for inconsistent state
     * @param string
     */
@@ -29,9 +36,6 @@ class StRule implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startValue() {
-      $this->err('start value');
-   }
    public function startRuleset() {
       $this->err('start ruleset');
    }
