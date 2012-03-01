@@ -44,7 +44,7 @@ final class Comment implements Tokenable {
     * @param CssPurify
     */
    public function expect(CssPurify $parser) {
-      $parser->addComment($this->get());
+      return $parser->addComment($this->get());
    }
 }
 ?>

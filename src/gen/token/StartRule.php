@@ -27,7 +27,7 @@ final class StartRule implements Tokenable {
     * @param CssPurify
     */
    public function expect(CssPurify $parser) {
-      $parser->startRule();
+      return $parser->startRule();
    }
 }
 ?>

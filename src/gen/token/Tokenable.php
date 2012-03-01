@@ -13,7 +13,9 @@ interface Tokenable {
 
    /**
     * Tell the parser which action to take in order to modify values and update its state
+    * State is modified through Statable objects rather than conditional branches
     * @param CssPurify
+    * @return Statable
     */
    function expect(CssPurify $parser);
 }

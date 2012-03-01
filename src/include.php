@@ -24,6 +24,9 @@ if (function_exists('spl_autoload_register')) {
       else if (file_exists($path . "filter/$file.php")) {
          include $path . "filter/$file.php";
       }
+      else if (file_exists($path . "state/$file.php")) {
+         include $path . "state/$file.php";
+      }
    }
    spl_autoload_register('__csspurify_autoload');
 }
@@ -44,5 +47,12 @@ else {
    include $path . "filter/Whitelist.php";
    include $path . "filter/Blacklist.php";
    include $path . "tree/Tree.php";
+   include $path . "state/Statable.php";
+   include $path . "state/StEmptyRule.php";
+   include $path . "state/StEmptySelector.php";
+   include $path . "state/StEmptyRuleValue.php";
+   include $path . "state/StSelector.php";
+   include $path . "state/StRule.php";
+   include $path . "state/StRuleValue.php";
 }
 ?>

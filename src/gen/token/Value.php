@@ -45,7 +45,7 @@ final class Value implements Tokenable {
     * @param CssPurify
     */
    public function expect(CssPurify $parser) {
-      $parser->contributeValue($this);
+      return $parser->contributeValue($this);
    }
 }
 ?>

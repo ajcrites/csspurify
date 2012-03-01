@@ -27,7 +27,7 @@ final class EndRule implements Tokenable {
     * @param CssPurify
     */
    public function expect(CssPurify $parser) {
-      $parser->endRule();
+      return $parser->endRule();
    }
 }
 ?>

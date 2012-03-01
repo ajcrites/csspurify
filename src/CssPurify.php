@@ -27,7 +27,7 @@ final class CssPurify {
    private $tree;
 
    /**
-    * @var string current parse state
+    * @var Stateable current parse state
     */
    private $state;
 
@@ -90,10 +90,11 @@ final class CssPurify {
     * @return Tree
     */
    public function parse() {
-      $this->state = self::ST_EMPTY_SELECTOR;
+      $this->state = new StEmptySelector;
       $this->value = '';
       while ($token = $this->lexer->get()) {
-         $token->expect($this);
+         $state = $token->expect($this);
+         $this->state = $state;
       }
 
       foreach ($this->filters as $filter) {
@@ -109,28 +110,17 @@ final class CssPurify {
     * Change state now that we have a value; also add value contents to current value state
     */
    public function contributeValue(Value $value) {
-      if ($this->state == self::ST_EMPTY_SELECTOR) {
-         $this->state = self::ST_SELECTOR;
-      }
-      else if ($this->state == self::ST_EMPTY_RULE) {
-         $this->state = self::ST_RULE;
-      }
-      else if ($this->state == self::ST_EMPTY_RULE_VALUE) {
-         $this->state = self::ST_RULE_VALUE;
-      }
       $this->value .= $value->get();
+      return $this->state->startValue();
    }
 
    /**
     * We are now in the ruleset state
     */
    public function startRuleset() {
-      if ($this->state != self::ST_SELECTOR) {
-         throw new InvalidTokenException("Trying to start a ruleset outside of the start-ruleset state: $this->state");
-      }
       $this->tree->addSelector($this->value);
       $this->value = '';
-      $this->state = self::ST_EMPTY_RULE;
+      return $this->state->startRuleset();
    }
 
    /**
@@ -138,41 +128,32 @@ final class CssPurify {
     * Rules are started by a colon, which makes them valid in selectors too
     */
    public function startRule() {
-      if ($this->state == self::ST_EMPTY_SELECTOR || $this->state == self::ST_SELECTOR) {
-         $this->value .= ':';
-         $this->state = self::ST_SELECTOR;
-      }
-      else if ($this->state == self::ST_RULE) {
-         $this->tree->addRule($this->value);
-         $this->value = '';
-         $this->state = self::ST_EMPTY_RULE_VALUE;
-      }
-      else {
-         throw new InvalidTokenException("Trying to start a rule, but not a selector: $this->state");
-      }
+      return $this->state->startRule($this);
+   }
+   public function startRuleInSelector() {
+      $this->value .= ':';
+      return new StSelector;
+   }
+   public function startRuleValueInRule() {
+      $this->tree->addRule($this->value);
+      $this->value = '';
+      return new StEmptyRuleValue;
    }
 
    /**
     * Ending the current rule
     */
    public function endRule() {
-      if ($this->state == self::ST_RULE_VALUE) {
-         $this->tree->addRuleValue($this->value);
-         $this->value = '';
-         $this->state = self::ST_EMPTY_RULE;
-      }
-      else {
-         throw new InvalidTokenException("Trying to start a rule, but not a selector: $this->state");
-      }
+      $this->tree->addRuleValue($this->value);
+      $this->value = '';
+      return $this->state->endRule();
    }
 
    /**
     * End the current ruleset
     */
    public function endRuleset() {
-      if ($this->state == self::ST_EMPTY_RULE) {
-         $this->state = self::ST_EMPTY_SELECTOR;
-      }
+      return $this->state->endRuleset();
    }
 
    /**
