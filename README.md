@@ -12,30 +12,32 @@ purifier.
 csspurify can also be used specifically to minify CSS as it removes duplicate rules, duplicate selector
 declarations, and all unnecessary whitespace.  Filtering rulesets is optional.
 
-==TODO Items
+# TODO Items
 * Allow Whitelist and Blacklist information to be read from a configuration file
 * Prevent clobbering of multiple rule definitions (e.g. multiple "background" rules for vendor gradients)
-   ? Allow users to specify rule names that should not be clobbered and make keys unique with whitespace
+** ? Allow users to specify rule names that should not be clobbered and make keys unique with whitespace
 
-==Requirements
+# Requirements
 * PHP 5.2 or higher.  Untested on lower installations.
 
-==Installation
+# Installation
 * Place the src folder or its contents anywhere you like.  To include the API in a php script, simply include
 
-    src/include.php
+```php
+src/include.php
+```
 
 As long as you have not changed the src folder contents, the API should now be fully usable.
+
+# Running
 
 If you only wish to use the csspurify executable, it must be in the same directory as src, or you have to update
 the include (or write your own).
 
-==Using the executable
+## Using the executable
 The csspurify.php executable was written to allow for simple css purifying of one file (optionally uncompressed)
 and write the result to another specified file or stdout.  You can copy this example file and write your own to
 include filtering rules.
 
-===Creating other filtering rules
-
-==Security
+## Security
 Attempting to parse any non-CSS file will generally fail.
