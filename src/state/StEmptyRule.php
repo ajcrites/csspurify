@@ -19,10 +19,17 @@ class StEmptyRule implements Statable {
    }
 
    /**
+    * 
+    */
+   public function startQuery() {
+      return new StRule;
+   }
+
+   /**
     * Move to Empty Selector state.  Ruleset is finished.  No more rules defined.  Empty ruleset.
     * @return StEmptySelector
     */
-   public function endRuleset() {
+   public function endRuleset(CssPurify $parser) {
       return new StEmptySelector;
    }
 

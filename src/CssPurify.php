@@ -36,13 +36,15 @@ final class CssPurify {
     *
     * The CSS grammar is inelegantly described here (which is also what the parser uses)
     */
+   const ST_EMPTY_QUERY = 'empty query';
+   const ST_QUERY = 'query';
    const ST_EMPTY_SELECTOR = 'empty selector';
    const ST_SELECTOR = 'selector';
    const ST_EMPTY_RULE = 'empty rule';
    const ST_RULE = 'rule';
    const ST_EMPTY_RULE_VALUE = 'empty rule value';
    const ST_RULE_VALUE = 'rule value';
-   //**#@-*/
+   /**#@-*/
 
    /**
     * @var string current value
@@ -106,6 +108,22 @@ final class CssPurify {
     * State-handling methods
     */
    /**
+    * We are now in a query state
+    */
+   public function startQuery() {
+      $this->tree->addQuery($this->value);
+      $this->value = '';
+      return $this->state->startQuery();
+   }
+
+   /**
+    * Attempt to exist query mode
+    */
+   public function exitQuery() {
+      $this->tree->exitQuery();
+   }
+
+   /**
     * Change state now that we have a value; also add value contents to current value state
     */
    public function contributeValue(Value $value) {
@@ -152,7 +170,7 @@ final class CssPurify {
     * End the current ruleset
     */
    public function endRuleset() {
-      return $this->state->endRuleset();
+      return $this->state->endRuleset($this);
    }
 
    /**

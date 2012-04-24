@@ -34,6 +34,10 @@ class StSelector implements Statable {
       return $this;
    }
 
+   public function startQuery() {
+      return $this;
+   }
+
    /**
     * Report error for inconsistent state
     * @param string
@@ -49,7 +53,7 @@ class StSelector implements Statable {
    public function endRule() {
       $this->err('end ruleset');
    }
-   public function endRuleset() {
+   public function endRuleset(CssPurify $parser) {
       $this->err('end ruleset');
    }
    /**#@-*/

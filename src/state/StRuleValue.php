@@ -25,6 +25,10 @@ class StRuleValue implements Statable {
       return $this;
    }
 
+   public function startQuery() {
+      return $this;
+   }
+
    /**
     * Report error for inconsistent state
     * @param string
@@ -43,7 +47,7 @@ class StRuleValue implements Statable {
    public function startRuleset() {
       $this->err('start ruleset');
    }
-   public function endRuleset() {
+   public function endRuleset(CssPurify $parser) {
       $this->err('end ruleset');
    }
    /**#@-*/
