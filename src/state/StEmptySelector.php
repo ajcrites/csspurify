@@ -19,6 +19,10 @@ class StEmptySelector implements Statable {
       return new StSelector;
    }
 
+   public function startQuery() {
+      return new StQuery;
+   }
+
    /**
     * Handle start-rule token in selector.  This is a valid selector component, so we are now in the
     * selector state
@@ -26,6 +30,11 @@ class StEmptySelector implements Statable {
    public function startRule(CssPurify $parser) {
       $parser->startRuleInSelector();
       return new StSelector;
+   }
+
+   public function endRuleset(CssPurify $parser) {
+      $parser->exitQuery();
+      return $this;
    }
 
    /**
@@ -40,14 +49,11 @@ class StEmptySelector implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
       $this->err('start ruleset');
    }
    public function endRule() {
       $this->err('end rule');
-   }
-   public function endRuleset() {
-      $this->err('end ruleset');
    }
    /**#@-*/
 }

@@ -18,6 +18,13 @@ class StEmptyRuleValue implements Statable {
    }
 
    /**
+    * Move to rule value state.  A value for this rule has been received, so it is no longer empty
+    */
+   public function startQuery() {
+      return new StRuleValue;
+   }
+
+   /**
     * Error reporting for inconsistent state
     */
    public function err($attempted) {
@@ -28,7 +35,7 @@ class StEmptyRuleValue implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
       $this->err('start ruleset');
    }
    public function startRule(CssPurify $parser) {
@@ -37,7 +44,7 @@ class StEmptyRuleValue implements Statable {
    public function endRule() {
       $this->err('end rule');
    }
-   public function endRuleset() {
+   public function endRuleset(CssPurify $parser) {
       $this->err('end ruleset');
    }
    /**#@-*/

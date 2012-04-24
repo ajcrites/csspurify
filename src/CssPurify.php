@@ -93,6 +93,30 @@ final class CssPurify {
     * State-handling methods
     */
    /**
+    * We are now in a query state
+    */
+   public function startQuery() {
+      return $this->state->startQuery();
+   }
+
+   public function initQuery() {
+      $this->tree->addQuery($this->value);
+      $this->value = '';
+   }
+
+   public function initRuleset() {
+      $this->tree->addSelector($this->value);
+      $this->value = '';
+   }
+
+   /**
+    * Attempt to exist query mode
+    */
+   public function exitQuery() {
+      $this->tree->exitQuery();
+   }
+
+   /**
     * Change state now that we have a value; also add value contents to current value state
     */
    public function contributeValue(Value $value) {
@@ -104,9 +128,7 @@ final class CssPurify {
     * We are now in the ruleset state
     */
    public function startRuleset() {
-      $this->tree->addSelector($this->value);
-      $this->value = '';
-      return $this->state->startRuleset();
+      return $this->state->startRuleset($this);
    }
 
    /**
@@ -139,7 +161,7 @@ final class CssPurify {
     * End the current ruleset
     */
    public function endRuleset() {
-      return $this->state->endRuleset();
+      return $this->state->endRuleset($this);
    }
 
    /**

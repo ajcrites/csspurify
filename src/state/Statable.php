@@ -11,6 +11,11 @@
  */
 interface Statable {
    /**
+    * Move to the query start state
+    */
+   function startQuery();
+
+   /**
     * Move to a state where a value has initialized
     */
    function startValue();
@@ -18,7 +23,7 @@ interface Statable {
    /**
     * Move to a state where a ruleset has been initialized
     */
-   function startRuleset();
+   function startRuleset(CssPurify $parser);
 
    /**
     * Move to a state where a rule defnition has been initialized
@@ -38,7 +43,7 @@ interface Statable {
    /**
     * Move to a state where a ruleset definition has just been completed
     */
-   function endRuleset();
+   function endRuleset(CssPurify $parser);
 }
 
 /**

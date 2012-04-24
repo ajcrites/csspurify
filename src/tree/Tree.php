@@ -11,13 +11,18 @@
  */
 final class Tree {
    /**
-    * @var array multi-dimensional array of rulesets
+    * @var array multi-dimensional array of rulesets keyed on the query
     */
    private $rulesets;
 
    /**#@+
     * Tree state
     */
+
+   /**
+    * @var string current @ query
+    */
+   private $curquery;
 
    /**
     * @var string the current selector
@@ -31,7 +36,7 @@ final class Tree {
    /**#@-*/
 
    /**
-    * Base level (will be used when @ queries are available)
+    * Base level (if not in an @ query)
     */
    const TRUNK = '<TRUNK>';
 
@@ -40,6 +45,28 @@ final class Tree {
     */
    public function __construct() {
       $this->rulesets = array(self::TRUNK => array());
+      $this->curquery = self::TRUNK;
+   }
+
+   /**
+    * Add a query and watch it
+    * @param string
+    */
+   public function addQuery($value) {
+      $this->curquery = $value;
+      if (!isset($this->rulesets[$value])) {
+         $this->rulesets[$value] = array();
+      }
+   }
+
+   /**
+    * Restore to non-query state
+    */
+   public function exitQuery() {
+      if ($this->curquery == self::TRUNK) {
+         throw new CssPurifyException("Attempting to exit @ query, but we are not in one.  Extra }?");
+      }
+      $this->curquery = self::TRUNK;
    }
 
    /**
@@ -48,8 +75,8 @@ final class Tree {
     */
    public function addSelector($value) {
       $this->cursel = $value;
-      if (!isset($this->rulesets[self::TRUNK][$value])) {
-         $this->rulesets[self::TRUNK][$value] = array();
+      if (!isset($this->rulesets[$this->curquery][$value])) {
+         $this->rulesets[$this->curquery][$value] = array();
       }
    }
 
@@ -64,7 +91,7 @@ final class Tree {
     * Add a rule value for the watched rule declaration and selector
     */
    public function addRuleValue($value) {
-      $this->rulesets[self::TRUNK][$this->cursel][$this->currule] = $value;
+      $this->rulesets[$this->curquery][$this->cursel][$this->currule] = $value;
    }
 
    /**
@@ -80,13 +107,19 @@ final class Tree {
    public function emitAsCss() {
       $css = '';
 
-      foreach ($this->rulesets as $rulesets) {
+      foreach ($this->rulesets as $query => $rulesets) {
+         if ($query != self::TRUNK) {
+            $css .= "@$query{";
+         }
          foreach ($rulesets as $selector => $rules) {
             $css .= "$selector{";
             foreach ($rules as $rule => $value) {
                $css .= "$rule:$value;";
             }
             $css .= "}";
+         }
+         if ($query != self::TRUNK) {
+            $css .= '}';
          }
       }
 
@@ -96,13 +129,22 @@ final class Tree {
    public function emitAsUnCompressedCss() {
       $css = '';
 
-      foreach ($this->rulesets as $rulesets) {
+      foreach ($this->rulesets as $query => $rulesets) {
+         if ($query != self::TRUNK) {
+            $css .= "@$query {\n";
+         }
          foreach ($rulesets as $selector => $rules) {
             $css .= "$selector {\n";
             foreach ($rules as $rule => $value) {
                $css .= "\t$rule: $value;\n";
             }
+            $css .= "}\n";
+         }
+         if ($query != self::TRUNK) {
             $css .= "}\n\n";
+         }
+         else {
+            $css .= "\n";
          }
       }
 

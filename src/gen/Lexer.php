@@ -13,9 +13,10 @@ final class Lexer {
    /**#@+
     * Representations of token types
     */
+   const QUERY = '@';
    const BLOCK = '{}:;/';
    //Valid CSS characters
-   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~@*%$()[]\'"#.,>=';
+   const VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_!+~*%$()[]\'"#.,>=';
    const START_RULES = '{';
    const END_RULES = '}';
    const START_RULE = ':';
@@ -110,6 +111,9 @@ final class Lexer {
       }
 
       //Handle any block tokens now that whitespace and possible EOF is dealt with
+      if ($c1 == self::QUERY) {
+         return new StartQuery;
+      }
       if ($c1 == self::START_RULES) {
          return new StartRules;
       }

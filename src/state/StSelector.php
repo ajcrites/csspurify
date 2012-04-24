@@ -14,7 +14,8 @@ class StSelector implements Statable {
     * Move to the empty rule state.  The selector is completed -- this is indicated by a start ruleset
     * token, so now we need to start defining rules
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
+      $parser->initRuleset();
       return new StEmptyRule;
    }
 
@@ -34,6 +35,10 @@ class StSelector implements Statable {
       return $this;
    }
 
+   public function startQuery() {
+      return $this;
+   }
+
    /**
     * Report error for inconsistent state
     * @param string
@@ -49,7 +54,7 @@ class StSelector implements Statable {
    public function endRule() {
       $this->err('end ruleset');
    }
-   public function endRuleset() {
+   public function endRuleset(CssPurify $parser) {
       $this->err('end ruleset');
    }
    /**#@-*/

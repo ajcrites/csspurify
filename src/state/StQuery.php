@@ -1,25 +1,19 @@
 <?php
 /**
- * The purpose of this file is to define the rule state class
+ * The purpose of this file is to in-query state
  * @author Andrew Crites <andrew@gleim.com>
  * @copyright 2012
  * @package csspurify
  */
 
 /**
- * Rule state class (this defines a rule, not a rule value)
+ * Non-empty query state class
  */
-class StRule implements Statable {
-   /**
-    * Move to the rule value state; no value is to be appended to the tree
-    */
+class StQuery implements Statable {
    public function startRule(CssPurify $parser) {
-      return $parser->startRuleValueInRule();
+      $this->err('start rule');
    }
 
-   /**
-    * Do not move state.  Values are valid in rule definitions
-    */
    public function startValue() {
       return $this;
    }
@@ -28,21 +22,23 @@ class StRule implements Statable {
       return $this;
    }
 
+   public function startRuleset(CssPurify $parser) {
+      $parser->initQuery();
+      return new StEmptySelector;
+   }
+
    /**
     * Report error for inconsistent state
     * @param string
     */
    public function err($attempted) {
       throw new InconsistentStateException("Attempting to move to state $attempted, but"
-         . " this is invalid.  We are currently in the Rule state.");
+         . " this is invalid.  We are currently in the Query state.");
    }
 
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset(CssPurify $parser) {
-      $this->err('start ruleset');
-   }
    public function endRule() {
       $this->err('end rule');
    }
