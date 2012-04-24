@@ -42,3 +42,20 @@ include filtering rules.
 
 ## Security
 Attempting to parse any non-CSS file will generally fail.
+
+# Updating the Parser
+
+The Parser purposely avoids conditional checks on the tokens and state instead using an Object Oriented approach.
+At first, this may seem confusing, but imagine that inside of the `while ($token = $this->lexer->get())` block, there
+are two switches: one on the token and one on the state.  The contents of the `state` case block are the same as the
+contents of the individual `Statable` methods.
+
+To add a new token to the parser, you must do the following:
+* Update `gen/Lexer` to include a constant for the new token.
+* Create a new object representing the token.  Implement the `expect` method to call the required operation on the `Parser`.
+* Update `gen/Lexer` to correctly return the new token type when required
+
+You may also need to create a new state:
+* Create a new state object that implements `Statable`
+* Any methods that are not needed should throw an `InvalidStateException`
+* If the value of the current state needs to be added to the `Tree`, you must call the required method on the `Parser` before returning a new state.
