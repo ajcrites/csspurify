@@ -31,19 +31,6 @@ final class CssPurify {
     */
    private $state;
 
-   /**#@+
-    * List of available states (this is what we expect)
-    *
-    * The CSS grammar is inelegantly described here (which is also what the parser uses)
-    */
-   const ST_EMPTY_SELECTOR = 'empty selector';
-   const ST_SELECTOR = 'selector';
-   const ST_EMPTY_RULE = 'empty rule';
-   const ST_RULE = 'rule';
-   const ST_EMPTY_RULE_VALUE = 'empty rule value';
-   const ST_RULE_VALUE = 'rule value';
-   //**#@-*/
-
    /**
     * @var string current value
     */
