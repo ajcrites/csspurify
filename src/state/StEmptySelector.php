@@ -49,7 +49,7 @@ class StEmptySelector implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
       $this->err('start ruleset');
    }
    public function endRule() {

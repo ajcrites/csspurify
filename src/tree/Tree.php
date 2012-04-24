@@ -45,7 +45,7 @@ final class Tree {
     */
    public function __construct() {
       $this->rulesets = array(self::TRUNK => array());
-      $this->query = self::TRUNK;
+      $this->curquery = self::TRUNK;
    }
 
    /**

@@ -44,7 +44,7 @@ class StRuleValue implements Statable {
    public function startRule(CssPurify $parser) {
       $this->err('start value');
    }
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
       $this->err('start ruleset');
    }
    public function endRuleset(CssPurify $parser) {

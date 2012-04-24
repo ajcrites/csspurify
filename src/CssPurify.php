@@ -111,9 +111,17 @@ final class CssPurify {
     * We are now in a query state
     */
    public function startQuery() {
+      return $this->state->startQuery();
+   }
+
+   public function initQuery() {
       $this->tree->addQuery($this->value);
       $this->value = '';
-      return $this->state->startQuery();
+   }
+
+   public function initRuleset() {
+      $this->tree->addSelector($this->value);
+      $this->value = '';
    }
 
    /**
@@ -135,9 +143,7 @@ final class CssPurify {
     * We are now in the ruleset state
     */
    public function startRuleset() {
-      $this->tree->addSelector($this->value);
-      $this->value = '';
-      return $this->state->startRuleset();
+      return $this->state->startRuleset($this);
    }
 
    /**

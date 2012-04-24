@@ -41,7 +41,7 @@ class StEmptyRule implements Statable {
    /**#@+
     * Invalid states
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
       $this->err('start ruleset');
    }
    public function startRule(CssPurify $parser) {

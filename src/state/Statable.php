@@ -23,7 +23,7 @@ interface Statable {
    /**
     * Move to a state where a ruleset has been initialized
     */
-   function startRuleset();
+   function startRuleset(CssPurify $parser);
 
    /**
     * Move to a state where a rule defnition has been initialized

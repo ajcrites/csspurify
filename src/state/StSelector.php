@@ -14,7 +14,8 @@ class StSelector implements Statable {
     * Move to the empty rule state.  The selector is completed -- this is indicated by a start ruleset
     * token, so now we need to start defining rules
     */
-   public function startRuleset() {
+   public function startRuleset(CssPurify $parser) {
+      $parser->initRuleset();
       return new StEmptyRule;
    }
 
