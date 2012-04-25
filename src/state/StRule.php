@@ -14,7 +14,8 @@ class StRule implements Statable {
     * Move to the rule value state; no value is to be appended to the tree
     */
    public function startRule(CssPurify $parser) {
-      return $parser->startRuleValueInRule();
+      $parser->startRuleValueInRule();
+      return new StEmptyRuleValue;
    }
 
    /**

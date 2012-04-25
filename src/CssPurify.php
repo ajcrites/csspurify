@@ -140,12 +140,10 @@ final class CssPurify {
    }
    public function startRuleInSelector() {
       $this->value .= ':';
-      return new StSelector;
    }
    public function startRuleValueInRule() {
       $this->tree->addRule($this->value);
       $this->value = '';
-      return new StEmptyRuleValue;
    }
 
    /**
