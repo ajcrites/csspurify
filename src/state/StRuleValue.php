@@ -15,18 +15,18 @@ class StRuleValue implements Statable {
     * end the ruleset
     */
    public function endRule() {
-      return new StEmptyRule;
+      return new OpEmptyRule;
    }
 
    /**
     * Do not move state.  Values are allowed in rule values, of course!
     */
    public function startValue() {
-      return $this;
+      return new OpRuleValue;
    }
 
    public function startQuery() {
-      return $this;
+      return new OpRuleValue;
    }
 
    /**
@@ -41,13 +41,13 @@ class StRuleValue implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRule(CssPurify $parser) {
+   public function startRule() {
       $this->err('start value');
    }
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $this->err('start ruleset');
    }
-   public function endRuleset(CssPurify $parser) {
+   public function endRuleset() {
       $this->err('end ruleset');
    }
    /**#@-*/

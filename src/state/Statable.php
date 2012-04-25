@@ -23,7 +23,7 @@ interface Statable {
    /**
     * Move to a state where a ruleset has been initialized
     */
-   function startRuleset(CssPurify $parser);
+   function startRuleset();
 
    /**
     * Move to a state where a rule defnition has been initialized
@@ -31,9 +31,8 @@ interface Statable {
     * The start rule state can occur in the middle of a selector (it is not actually starting
     * a rule in this case, but the same token is used).  The Parser needs to either add the
     * token value to the selector or to discard the value and add the created rule to the tree
-    * @param CssPurify
     */
-   function startRule(CssPurify $parser);
+   function startRule();
 
    /**
     * Move to a state where a rule definition has just been completed
@@ -43,7 +42,7 @@ interface Statable {
    /**
     * Move to a state where a ruleset definition has just been completed
     */
-   function endRuleset(CssPurify $parser);
+   function endRuleset();
 }
 
 /**

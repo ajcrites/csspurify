@@ -12,25 +12,25 @@
 class StEmptyRule implements Statable {
    /**
     * Move to Start Rule state.  Value has been received for the new rule; it is no longer empty
-    * @return StRule
+    * @return OpRule
     */
    public function startValue() {
-      return new StRule;
+      return new OpRule;
    }
 
    /**
     * 
     */
    public function startQuery() {
-      return new StRule;
+      return new OpRule;
    }
 
    /**
     * Move to Empty Selector state.  Ruleset is finished.  No more rules defined.  Empty ruleset.
-    * @return StEmptySelector
+    * @return OpEmptySelector
     */
-   public function endRuleset(CssPurify $parser) {
-      return new StEmptySelector;
+   public function endRuleset() {
+      return new OpEmptySelector;
    }
 
    public function err($attempted) {
@@ -41,10 +41,10 @@ class StEmptyRule implements Statable {
    /**#@+
     * Invalid states
     */
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $this->err('start ruleset');
    }
-   public function startRule(CssPurify $parser) {
+   public function startRule() {
       $this->err('start rule');
    }
    public function endRule() {

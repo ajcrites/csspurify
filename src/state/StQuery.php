@@ -10,21 +10,17 @@
  * Non-empty query state class
  */
 class StQuery implements Statable {
-   public function startRule(CssPurify $parser) {
-      $this->err('start rule');
-   }
 
    public function startValue() {
-      return $this;
+      return new OpQuery;
    }
 
    public function startQuery() {
-      return $this;
+      return new OpQuery;
    }
 
-   public function startRuleset(CssPurify $parser) {
-      $parser->initQuery();
-      return new StEmptySelector;
+   public function startRuleset() {
+      return new OpInitQuery;
    }
 
    /**
@@ -42,8 +38,11 @@ class StQuery implements Statable {
    public function endRule() {
       $this->err('end rule');
    }
-   public function endRuleset(CssPurify $parser) {
+   public function endRuleset() {
       $this->err('end ruleset');
+   }
+   public function startRule() {
+      $this->err('start rule');
    }
    /**#@-*/
 }
