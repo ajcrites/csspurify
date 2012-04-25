@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define the rule state class
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */
@@ -13,20 +13,19 @@ class StRule implements Statable {
    /**
     * Move to the rule value state; no value is to be appended to the tree
     */
-   public function startRule(CssPurify $parser) {
-      $parser->startRuleValueInRule();
-      return new StEmptyRuleValue;
+   public function startRule() {
+      return new OpStartRuleValueInRule;
    }
 
    /**
     * Do not move state.  Values are valid in rule definitions
     */
    public function startValue() {
-      return $this;
+      return new OpRule;
    }
 
    public function startQuery() {
-      return $this;
+      return new OpRule;
    }
 
    /**
@@ -41,13 +40,13 @@ class StRule implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $this->err('start ruleset');
    }
    public function endRule() {
       $this->err('end rule');
    }
-   public function endRuleset(CssPurify $parser) {
+   public function endRuleset() {
       $this->err('end ruleset');
    }
    /**#@-*/

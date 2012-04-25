@@ -80,7 +80,8 @@ final class CssPurify {
       $this->state = new StEmptySelector;
       $this->value = '';
       while ($token = $this->lexer->get()) {
-         $this->state = $token->expect($this);
+         $operator = $token->expect($this);
+         $this->state = $operator->operate($this);
       }
 
       foreach ($this->filters as $filter) {

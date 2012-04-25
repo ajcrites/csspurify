@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define the empty rule value state class
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */
@@ -14,14 +14,14 @@ class StEmptyRuleValue implements Statable {
     * Move to rule value state.  A value for this rule has been received, so it is no longer empty
     */
    public function startValue() {
-      return new StRuleValue;
+      return new OpRuleValue;
    }
 
    /**
     * Move to rule value state.  A value for this rule has been received, so it is no longer empty
     */
    public function startQuery() {
-      return new StRuleValue;
+      return new OpRuleValue;
    }
 
    /**
@@ -35,16 +35,16 @@ class StEmptyRuleValue implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $this->err('start ruleset');
    }
-   public function startRule(CssPurify $parser) {
+   public function startRule() {
       $this->err('start rule');
    }
    public function endRule() {
       $this->err('end rule');
    }
-   public function endRuleset(CssPurify $parser) {
+   public function endRuleset() {
       $this->err('end ruleset');
    }
    /**#@-*/

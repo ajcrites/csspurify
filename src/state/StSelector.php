@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define the in-selector state
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */
@@ -14,7 +14,7 @@ class StSelector implements Statable {
     * Move to the empty rule state.  The selector is completed -- this is indicated by a start ruleset
     * token, so now we need to start defining rules
     */
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $parser->initRuleset();
       return new StEmptyRule;
    }
@@ -23,9 +23,8 @@ class StSelector implements Statable {
     * Add rule start to value.  The rule-start token is valid in selectors and its value should be added.
     * This does not change the state from selector, though.
     */
-   public function startRule(CssPurify $parser) {
-      $parser->startRuleInSelector();
-      return $this;
+   public function startRule() {
+      return new OpStartRuleInSelector;
    }
 
    /**
@@ -54,7 +53,7 @@ class StSelector implements Statable {
    public function endRule() {
       $this->err('end ruleset');
    }
-   public function endRuleset(CssPurify $parser) {
+   public function endRuleset() {
       $this->err('end ruleset');
    }
    /**#@-*/

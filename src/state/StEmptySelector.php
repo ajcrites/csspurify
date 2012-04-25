@@ -1,7 +1,7 @@
 <?php
 /**
  * The purpose of this file is to define the empty-selector state class
- * @author Andrew Crites <andrew@gleim.com>
+ * @author Andrew Crites <explosion-pills@aysites.com>
  * @copyright 2012
  * @package csspurify
  */
@@ -16,25 +16,23 @@ class StEmptySelector implements Statable {
     * @return StSelector
     */
    public function startValue() {
-      return new StSelector;
+      return new OpSelector;
    }
 
    public function startQuery() {
-      return new StQuery;
+      return new OpQuery;
    }
 
    /**
     * Handle start-rule token in selector.  This is a valid selector component, so we are now in the
     * selector state
     */
-   public function startRule(CssPurify $parser) {
-      $parser->startRuleInSelector();
-      return new StSelector;
+   public function startRule() {
+      return new OpStartRuleInSelector;
    }
 
-   public function endRuleset(CssPurify $parser) {
-      $parser->exitQuery();
-      return $this;
+   public function endRuleset() {
+      return new OpExitQuery;
    }
 
    /**
@@ -49,7 +47,7 @@ class StEmptySelector implements Statable {
    /**#@+
     * Inconsistent states
     */
-   public function startRuleset(CssPurify $parser) {
+   public function startRuleset() {
       $this->err('start ruleset');
    }
    public function endRule() {
