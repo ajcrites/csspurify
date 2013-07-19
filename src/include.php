@@ -33,6 +33,7 @@ if (function_exists('spl_autoload_register')) {
 else {
    $path = dirname(__FILE__) . '/';
    include $path . "CssPurify.php";
+   include $path . "CssPurifyException.php";
    include $path . "gen/Scanner.php";
    include $path . "gen/Lexer.php";
    include $path . "gen/token/Tokenable.php";
@@ -41,6 +42,7 @@ else {
    include $path . "gen/token/EndRules.php";
    include $path . "gen/token/StartRule.php";
    include $path . "gen/token/StartRules.php";
+   include $path . "gen/token/StartQuery.php";
    include $path . "gen/token/Value.php";
    include $path . "filter/Filterable.php";
    include $path . "filter/Filter.php";
@@ -54,5 +56,6 @@ else {
    include $path . "state/StSelector.php";
    include $path . "state/StRule.php";
    include $path . "state/StRuleValue.php";
+   include $path . "state/StQuery.php";
 }
 ?>
