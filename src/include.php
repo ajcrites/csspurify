@@ -27,6 +27,9 @@ if (function_exists('spl_autoload_register')) {
       else if (file_exists($path . "state/$file.php")) {
          include $path . "state/$file.php";
       }
+      else if (file_exists($path . "state/operator/$file.php")) {
+         include $path . "state/operator/$file.php";
+      }
    }
    spl_autoload_register('__csspurify_autoload');
 }

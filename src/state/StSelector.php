@@ -15,8 +15,7 @@ class StSelector implements Statable {
     * token, so now we need to start defining rules
     */
    public function startRuleset() {
-      $parser->initRuleset();
-      return new StEmptyRule;
+      return new OpInitRuleset;
    }
 
    /**
